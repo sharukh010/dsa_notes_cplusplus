@@ -1,119 +1,119 @@
-### Stacks and Their Operations Using C++ STL
+### Notes on Stack Usage in C++ (Using STL Library)
 
-A **stack** is a data structure that follows the Last In, First Out (LIFO) principle. This means that the last element added to the stack is the first one to be removed. It’s similar to a stack of plates: you add (push) plates to the top, and you also remove (pop) plates from the top.
+**Introduction**  
+A stack is a Last-In-First-Out (LIFO) data structure where the last element added is the first one to be removed. The C++ Standard Template Library (STL) provides a ready-to-use `stack` container that can be used for this purpose.
 
-#### **Real-Life Example:**
-Imagine you’re stacking books on a shelf. You place one book on top of the other. If you want to remove a book, you can only take the one on top. The book you placed last is the first one you remove, which perfectly illustrates the LIFO principle.
+### Stack Basics
 
-#### **Stack Operations Using C++ STL**
-
-The C++ Standard Template Library (STL) provides a `stack` class that allows you to perform stack operations easily. Here’s how you can perform basic stack operations using the `stack` class.
-
-1. **Creating a Stack:**
-   - You can create a stack using the `stack` class provided by the STL.
-
+1. **Header File:**  
+   To use the stack, you need to include the header file:
    ```cpp
-   #include <iostream>
    #include <stack>
-
-   int main() {
-       std::stack<int> bookStack;
-       return 0;
-   }
    ```
 
-2. **Push Operation:**
-   - The `push()` function is used to add an element to the top of the stack.
-   
+2. **Namespace:**  
+   Since we're using the standard library, include:
    ```cpp
-   bookStack.push(1); // Adding the first book
-   bookStack.push(2); // Adding the second book
-   bookStack.push(3); // Adding the third book
+   using namespace std;
    ```
 
-   - **Real-Life Analogy:** Imagine you are stacking books one by one. You place the first book, then the second on top of the first, and then the third on top of the second.
-
-3. **Pop Operation:**
-   - The `pop()` function removes the top element from the stack.
-
+3. **Stack Declaration:**  
+   A stack is declared as:
    ```cpp
-   bookStack.pop(); // Removes the third book (topmost)
+   stack<int> myStack;
    ```
+   This creates an empty stack of integers.
 
-   - **Real-Life Analogy:** When you want to read the book on top, you remove the top book from the stack first.
+### Common Stack Operations
 
-4. **Top Operation:**
-   - The `top()` function returns the top element of the stack without removing it.
-
+1. **Push Operation (Adding Elements):**
+   The `push()` function adds an element to the top of the stack.
    ```cpp
-   int topBook = bookStack.top(); // Accessing the top book
-   std::cout << "The top book is: " << topBook << std::endl;
+   myStack.push(10);
+   myStack.push(20);
    ```
+   The stack now contains: [10, 20]
 
-   - **Real-Life Analogy:** You can glance at the title of the top book without taking it off the stack.
-
-5. **Size Operation:**
-   - The `size()` function returns the number of elements in the stack.
-
+2. **Pop Operation (Removing Elements):**
+   The `pop()` function removes the top element from the stack.
    ```cpp
-   std::cout << "Number of books in the stack: " << bookStack.size() << std::endl;
+   myStack.pop();
    ```
+   After the above operation, the stack now contains: [10]
 
-   - **Real-Life Analogy:** You count how many books are in your stack without removing any of them.
-
-6. **Empty Operation:**
-   - The `empty()` function checks if the stack is empty.
-
+3. **Top Operation (Accessing the Top Element):**
+   The `top()` function returns the top element of the stack without removing it.
    ```cpp
-   if (bookStack.empty()) {
-       std::cout << "The stack is empty." << std::endl;
+   int topElement = myStack.top();
+   cout << "Top element: " << topElement << endl;
+   ```
+   Output: `Top element: 10`
+
+4. **Size Operation (Checking the Number of Elements):**
+   The `size()` function returns the number of elements in the stack.
+   ```cpp
+   cout << "Stack size: " << myStack.size() << endl;
+   ```
+   Output: `Stack size: 1`
+
+5. **Empty Operation (Checking if the Stack is Empty):**
+   The `empty()` function returns `true` if the stack is empty, otherwise returns `false`.
+   ```cpp
+   if (myStack.empty()) {
+       cout << "Stack is empty" << endl;
    } else {
-       std::cout << "The stack is not empty." << std::endl;
+       cout << "Stack is not empty" << endl;
    }
    ```
+   Output: `Stack is not empty`
 
-   - **Real-Life Analogy:** You check if there are any books left in the stack.
+### Real-Life Example: Undo Feature in Text Editor
 
-#### **Putting It All Together:**
+A stack can be used to implement the undo feature in a text editor. Each action (like typing a word) is stored in a stack. When the user presses "undo," the last action is popped from the stack and reversed.
 
-Here’s a simple C++ program demonstrating all the stack operations using the real-life analogy of stacking books:
-
+**Code Example:**
 ```cpp
 #include <iostream>
 #include <stack>
+using namespace std;
 
 int main() {
-    std::stack<int> bookStack;
+    stack<string> editor;
+    
+    // Simulating typing
+    editor.push("Hello");
+    editor.push(" World");
+    editor.push("!");
 
-    // Pushing books onto the stack
-    bookStack.push(1); // First book
-    bookStack.push(2); // Second book
-    bookStack.push(3); // Third book
+    // Performing undo operation
+    cout << "Undo: " << editor.top() << endl;
+    editor.pop();
 
-    // Accessing the top book
-    std::cout << "The top book is: " << bookStack.top() << std::endl;
-
-    // Removing the top book
-    bookStack.pop();
-    std::cout << "After popping, the top book is: " << bookStack.top() << std::endl;
-
-    // Checking the size of the stack
-    std::cout << "Number of books in the stack: " << bookStack.size() << std::endl;
-
-    // Checking if the stack is empty
-    if (bookStack.empty()) {
-        std::cout << "The stack is empty." << std::endl;
-    } else {
-        std::cout << "The stack is not empty." << std::endl;
+    cout << "Current text: ";
+    while (!editor.empty()) {
+        cout << editor.top();
+        editor.pop();
     }
-
+    
     return 0;
 }
 ```
+**Output:**
+```
+Undo: !
+Current text:  WorldHello
+```
 
-#### **Explanation:**
-- This program simulates stacking and unstacking books. Each operation corresponds to an action you would take in real life when dealing with a stack of books.
-- The `push` operation adds books, the `pop` operation removes the top book, and the `top` operation lets you see the top book without removing it.
-- The `size` and `empty` operations help you keep track of how many books are in the stack and whether the stack is empty.
+### Summary of Stack Operations
 
-Using stacks in programming is helpful when you need to manage data that needs to be processed in a LIFO manner, like undo operations in text editors, backtracking algorithms, or parsing expressions in compilers.
+| Function     | Description                                 | Example Usage        |
+|--------------|---------------------------------------------|----------------------|
+| `push()`     | Adds an element to the top of the stack     | `myStack.push(10);`  |
+| `pop()`      | Removes the top element from the stack      | `myStack.pop();`     |
+| `top()`      | Returns the top element of the stack        | `int x = myStack.top();` |
+| `size()`     | Returns the number of elements in the stack | `int s = myStack.size();` |
+| `empty()`    | Checks if the stack is empty                | `if(myStack.empty())` |
+
+### Conclusion
+The stack in the C++ STL is simple yet powerful for solving problems where a LIFO structure is required. Understanding how to use these basic operations is essential for applications like undo features, expression evaluation, and more.
+
